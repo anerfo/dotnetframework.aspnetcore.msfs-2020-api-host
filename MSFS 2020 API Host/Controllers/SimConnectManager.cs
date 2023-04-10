@@ -8,6 +8,7 @@ using System.Runtime.InteropServices;
 using Microsoft.FlightSimulator.SimConnect;
 
 using JohnPenny.MSFS.SimConnectManager.REST;
+using MobiFlight.SimConnectMSFS;
 
 namespace JohnPenny.MSFS.SimConnectManager
 {
@@ -120,7 +121,7 @@ namespace JohnPenny.MSFS.SimConnectManager
 		//private IntPtr handle;
 		//private HwndSource handleSource;
 		private const int WM_USER_SIMCONNECT = 0x0402; // User-defined win32 event
-		public SimConnect simConnect;
+        private SimConnect simConnect;
 		private string simConnectAppName;
 
 		// status
@@ -361,6 +362,18 @@ namespace JohnPenny.MSFS.SimConnectManager
 			return IntPtr.Zero;
 		}
 
+		public void SendMobiFlightEvent(string eventName)
+		{
+            if (_initialized == false)
+            {
+                _initialized = true;
+                InitializeClientDataAreas(simConnect);
+            }
+
+            WasmModuleClient.SendWasmCmd(Program.simConnectManager.simConnect, "MF.SimVars.Set." + eventName);
+            WasmModuleClient.DummyCommand(Program.simConnectManager.simConnect);
+        }
+
 		private void CloseConnection()
 		{
 			// TODO test and implement a safe and complete start/stop process for SC - forced reconnect / incidental disconnect
@@ -373,5 +386,40 @@ namespace JohnPenny.MSFS.SimConnectManager
 
 			Program.DispatchToWPFApplication(() => Program.mainWindow.ReportSimConnectDisconnected()); // dispatch the status change to the WPF thread
 		}
-	}
+
+        private const string MOBIFLIGHT_CLIENT_DATA_NAME_SIMVAR = "MobiFlight.LVars";
+        private const string MOBIFLIGHT_CLIENT_DATA_NAME_COMMAND = "MobiFlight.Command";
+        private const string MOBIFLIGHT_CLIENT_DATA_NAME_RESPONSE = "MobiFlight.Response";
+        private const int MOBIFLIGHT_MESSAGE_SIZE = 1024;
+        private bool _initialized = false;
+
+        private void InitializeClientDataAreas(SimConnect sender)
+        {
+            // register Client Data (for SimVars)
+            (sender).MapClientDataNameToID(MOBIFLIGHT_CLIENT_DATA_NAME_SIMVAR, SIMCONNECT_CLIENT_DATA_ID.MOBIFLIGHT_LVARS);
+            (sender).CreateClientData(SIMCONNECT_CLIENT_DATA_ID.MOBIFLIGHT_LVARS, 4096, SIMCONNECT_CREATE_CLIENT_DATA_FLAG.DEFAULT);
+
+            // register Client Data (for WASM Module Commands)
+            var ClientDataStringSize = (uint)Marshal.SizeOf(typeof(ClientDataString));
+            (sender).MapClientDataNameToID(MOBIFLIGHT_CLIENT_DATA_NAME_COMMAND, SIMCONNECT_CLIENT_DATA_ID.MOBIFLIGHT_CMD);
+            (sender).CreateClientData(SIMCONNECT_CLIENT_DATA_ID.MOBIFLIGHT_CMD, MOBIFLIGHT_MESSAGE_SIZE, SIMCONNECT_CREATE_CLIENT_DATA_FLAG.DEFAULT);
+
+            // register Client Data (for WASM Module Responses)
+            (sender).MapClientDataNameToID(MOBIFLIGHT_CLIENT_DATA_NAME_RESPONSE, SIMCONNECT_CLIENT_DATA_ID.MOBIFLIGHT_RESPONSE);
+            (sender).CreateClientData(SIMCONNECT_CLIENT_DATA_ID.MOBIFLIGHT_RESPONSE, MOBIFLIGHT_MESSAGE_SIZE, SIMCONNECT_CREATE_CLIENT_DATA_FLAG.DEFAULT);
+
+            (sender).AddToClientDataDefinition((SIMCONNECT_DEFINE_ID)0, 0, MOBIFLIGHT_MESSAGE_SIZE, 0, 0);
+            (sender).RegisterStruct<SIMCONNECT_RECV_CLIENT_DATA, ResponseString>((SIMCONNECT_DEFINE_ID)0);
+            (sender).RequestClientData(
+                SIMCONNECT_CLIENT_DATA_ID.MOBIFLIGHT_RESPONSE,
+                (SIMCONNECT_REQUEST_ID)0,
+                (SIMCONNECT_DEFINE_ID)0,
+                SIMCONNECT_CLIENT_DATA_PERIOD.ON_SET,
+                SIMCONNECT_CLIENT_DATA_REQUEST_FLAG.CHANGED,
+                0,
+                0,
+                0
+            );
+        }
+    }
 }

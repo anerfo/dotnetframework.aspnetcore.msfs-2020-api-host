@@ -237,8 +237,8 @@ namespace JohnPenny.MSFS.SimConnectManager.REST.Controllers
             Var
 		}
 
-		static Dictionary<string, EnumDefinition> _existingDataDefinitions = new Dictionary<string, EnumDefinition>();
-		static int _lastEnumDefinition = 0;
+		//static Dictionary<string, EnumDefinition> _existingDataDefinitions = new Dictionary<string, EnumDefinition>();
+		//static int _lastEnumDefinition = 0;
 		
         [HttpPost]
         [Route("/[controller]")]
@@ -246,35 +246,17 @@ namespace JohnPenny.MSFS.SimConnectManager.REST.Controllers
         {
 			if (!Program.simConnectManager.SetUp()) return BadRequest(ErrorCode.ItemStructureInvalid.ToString()); ; // setup failed, try again and report
             
-			EnumDefinition varEnum;
-            if (_existingDataDefinitions.TryGetValue(variable.Name, out varEnum) == false)
-			{
-                _lastEnumDefinition++;
-                _existingDataDefinitions[variable.Name] = (EnumDefinition)_lastEnumDefinition;
-                Program.simConnectManager.simConnect.AddToDataDefinition(varEnum, variable.Name, string.Empty, SIMCONNECT_DATATYPE.FLOAT64, 0.0f, SimConnect.SIMCONNECT_UNUSED);
-                Program.simConnectManager.simConnect.RegisterDataDefineStruct<double>(varEnum);
-            }
+			//EnumDefinition varEnum;
+   //         if (_existingDataDefinitions.TryGetValue(variable.Name, out varEnum) == false)
+			//{
+   //             _lastEnumDefinition++;
+   //             _existingDataDefinitions[variable.Name] = (EnumDefinition)_lastEnumDefinition;
+   //             Program.simConnectManager.simConnect.AddToDataDefinition(varEnum, variable.Name, string.Empty, SIMCONNECT_DATATYPE.FLOAT64, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+   //             Program.simConnectManager.simConnect.RegisterDataDefineStruct<double>(varEnum);
+   //         }
 
-            Program.simConnectManager.simConnect.SetDataOnSimObject(varEnum, SimConnect.SIMCONNECT_OBJECT_ID_USER, SIMCONNECT_DATA_SET_FLAG.DEFAULT, variable.Value);
+   //         Program.simConnectManager.simConnect.SetDataOnSimObject(varEnum, SimConnect.SIMCONNECT_OBJECT_ID_USER, SIMCONNECT_DATA_SET_FLAG.DEFAULT, variable.Value);
             return Ok();
-            //try
-            //{
-            //    if (item == null || !ModelState.IsValid)
-            //    {
-            //        return BadRequest(ErrorCode.ItemStructureInvalid.ToString());
-            //    }
-            //    bool itemExists = _repository.DoesItemExist(item.R_Item);
-            //    if (itemExists)
-            //    {
-            //        return StatusCode(StatusCodes.Status409Conflict, ErrorCode.ItemNameAlreadyTaken.ToString());
-            //    }
-            //    _repository.Insert(item);
-            //}
-            //catch (Exception)
-            //{
-            //    return BadRequest(ErrorCode.CouldNotCreateItem.ToString());
-            //}
-            //return Ok(item);
         }
 
         [HttpPut]
