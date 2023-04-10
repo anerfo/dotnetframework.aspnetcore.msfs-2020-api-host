@@ -19,10 +19,10 @@
                 position:absolute;
             }
             .uppermask { 
-                top:0px; left:0px; height:150px
+                top:0px; left:0px; height:185px
             }
             .lowermask {
-                top:570px; left:0px; height:268px; white-space: nowrap;
+                top:570px; left:0px; height:198px; white-space: nowrap;
             }
             .pfd {
                 top:1px; left:0; width: 256px
@@ -31,14 +31,14 @@
                 top:1px; left:512px; width: 256px
             }
             .pfdcontrols {
-                top:60px;
+                top:95px;
                 left:430px;
                 line-height:0;
                 width:0;
             }
             .mfdcontrols {
-                top:60px;
-                left:940px;
+                top:95px;
+                left:900px;
                 line-height:0;
                 width:0;
             }
@@ -53,9 +53,13 @@
             .toggleKey {
                 top:0px; left:1000px; height:5px; width:5px; z-index:100; display: inline-block;
             }
+            .footer {
+                top:768px; left:0px;
+                color: white;
+            }
         </style>
     </head>
-    <body class="flex ">
+    <body>
         <button class="toggleKey" onclick="toggleMask()" >&ZeroWidthSpace;</button>
         <embed src="Spacedesk/spacedesk.html" style="width:1024px; height: 768px; top:0;left:0;position:absolute;">
         <div class="mask uppermask" id="upper">
@@ -142,9 +146,13 @@
                 <img class="softkey" src="res/img/button.png" onclick="onButtonPressed('(>H:AS1000_MFD_SOFTKEYS_12)')" />
             </table>
         </div>
+        <div class="mask footer">Sound Effect from <a href="https://pixabay.com/sound-effects/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=music&amp;utm_content=105809">Pixabay</a></div>
+        <audio id="audio" src="res/media/flashlight-clicking-on-105809.mp3"></audio>
         <script>
             function onButtonPressed(name) {
                 console.log("Pressed " + name)
+                document.getElementById("audio");
+                audio.play();
                 fetch('http://@Request.Host/event', {
                     method: 'POST',
                     headers: {
