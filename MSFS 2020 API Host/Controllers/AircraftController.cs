@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Mvc;
 
 using JohnPenny.MSFS.SimConnectManager.REST.Interfaces;
 using JohnPenny.MSFS.SimConnectManager.REST.Models;
+using Microsoft.FlightSimulator.SimConnect;
+using System.Collections.Generic;
 
 namespace JohnPenny.MSFS.SimConnectManager.REST.Controllers
 {
@@ -201,31 +203,81 @@ namespace JohnPenny.MSFS.SimConnectManager.REST.Controllers
 			}
 		}
 
-		[HttpPost]
-		public IActionResult Create([FromBody] Aircraft item)
+		//[HttpPost]
+		//public IActionResult Create([FromBody] Aircraft item)
+		//{
+		//	return NoContent();
+		//	//try
+		//	//{
+		//	//    if (item == null || !ModelState.IsValid)
+		//	//    {
+		//	//        return BadRequest(ErrorCode.ItemStructureInvalid.ToString());
+		//	//    }
+		//	//    bool itemExists = _repository.DoesItemExist(item.R_Item);
+		//	//    if (itemExists)
+		//	//    {
+		//	//        return StatusCode(StatusCodes.Status409Conflict, ErrorCode.ItemNameAlreadyTaken.ToString());
+		//	//    }
+		//	//    _repository.Insert(item);
+		//	//}
+		//	//catch (Exception)
+		//	//{
+		//	//    return BadRequest(ErrorCode.CouldNotCreateItem.ToString());
+		//	//}
+		//	//return Ok(item);
+		//}
+
+		public class Variable
 		{
-			return NoContent();
-			//try
-			//{
-			//    if (item == null || !ModelState.IsValid)
-			//    {
-			//        return BadRequest(ErrorCode.ItemStructureInvalid.ToString());
-			//    }
-			//    bool itemExists = _repository.DoesItemExist(item.R_Item);
-			//    if (itemExists)
-			//    {
-			//        return StatusCode(StatusCodes.Status409Conflict, ErrorCode.ItemNameAlreadyTaken.ToString());
-			//    }
-			//    _repository.Insert(item);
-			//}
-			//catch (Exception)
-			//{
-			//    return BadRequest(ErrorCode.CouldNotCreateItem.ToString());
-			//}
-			//return Ok(item);
+			public string Name { get; set; }
+			public double Value { get; set; }
+		}
+		public enum EnumDefinition
+		{
+            Var
 		}
 
-		[HttpPut]
+		static Dictionary<string, EnumDefinition> _existingDataDefinitions = new Dictionary<string, EnumDefinition>();
+		static int _lastEnumDefinition = 0;
+		
+        [HttpPost]
+        [Route("/[controller]")]
+        public IActionResult Set([FromBody] Variable variable)
+        {
+			if (!Program.simConnectManager.SetUp()) return BadRequest(ErrorCode.ItemStructureInvalid.ToString()); ; // setup failed, try again and report
+            
+			EnumDefinition varEnum;
+            if (_existingDataDefinitions.TryGetValue(variable.Name, out varEnum) == false)
+			{
+                _lastEnumDefinition++;
+                _existingDataDefinitions[variable.Name] = (EnumDefinition)_lastEnumDefinition;
+                Program.simConnectManager.simConnect.AddToDataDefinition(varEnum, variable.Name, string.Empty, SIMCONNECT_DATATYPE.FLOAT64, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+                Program.simConnectManager.simConnect.RegisterDataDefineStruct<double>(varEnum);
+            }
+
+            Program.simConnectManager.simConnect.SetDataOnSimObject(varEnum, SimConnect.SIMCONNECT_OBJECT_ID_USER, SIMCONNECT_DATA_SET_FLAG.DEFAULT, variable.Value);
+            return Ok();
+            //try
+            //{
+            //    if (item == null || !ModelState.IsValid)
+            //    {
+            //        return BadRequest(ErrorCode.ItemStructureInvalid.ToString());
+            //    }
+            //    bool itemExists = _repository.DoesItemExist(item.R_Item);
+            //    if (itemExists)
+            //    {
+            //        return StatusCode(StatusCodes.Status409Conflict, ErrorCode.ItemNameAlreadyTaken.ToString());
+            //    }
+            //    _repository.Insert(item);
+            //}
+            //catch (Exception)
+            //{
+            //    return BadRequest(ErrorCode.CouldNotCreateItem.ToString());
+            //}
+            //return Ok(item);
+        }
+
+        [HttpPut]
 		public IActionResult Edit([FromBody] Aircraft item)
 		{
 			return NoContent();

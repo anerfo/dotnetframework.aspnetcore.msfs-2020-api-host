@@ -13,6 +13,8 @@ using System.Windows.Interop;
 
 using JohnPenny.MSFS.SimConnectManager.REST.Views;
 using System.Diagnostics;
+using Microsoft.Extensions.DependencyInjection;
+using System.Net;
 
 namespace JohnPenny.MSFS.SimConnectManager.REST
 {
@@ -104,9 +106,12 @@ namespace JohnPenny.MSFS.SimConnectManager.REST
 			simConnectManager.SetUp();
 
 			Console.ForegroundColor = ConsoleColor.DarkGray;
-			Console.WriteLine("\n░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░\n");
-
-			CreateWebHostBuilder(args).Build().Run();
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+            var builder = CreateWebHostBuilder(args);
+			builder.ConfigureServices(services => services.AddCors(x => x.AddPolicy("PolicyName", builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod().AllowCredentials())));
+			var app = builder.Build();
+			
+			app.Run();
 			Quit();
 		}
 

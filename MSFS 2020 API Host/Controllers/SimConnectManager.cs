@@ -120,7 +120,7 @@ namespace JohnPenny.MSFS.SimConnectManager
 		//private IntPtr handle;
 		//private HwndSource handleSource;
 		private const int WM_USER_SIMCONNECT = 0x0402; // User-defined win32 event
-		private SimConnect simConnect;
+		public SimConnect simConnect;
 		private string simConnectAppName;
 
 		// status
@@ -140,8 +140,8 @@ namespace JohnPenny.MSFS.SimConnectManager
 			{
 				simConnect = new SimConnect("Managed Data Request", Program.Handle, WM_USER_SIMCONNECT, null, 0);
 			}
-			catch (COMException x)
-			{
+			catch (COMException)
+            {
 				Console.ForegroundColor = ConsoleColor.Red;
 				Console.Write("\nSimConnectManager: ");
 				Console.ResetColor();
@@ -321,7 +321,7 @@ namespace JohnPenny.MSFS.SimConnectManager
 
 		private void OnReceiveEventException(SimConnect sender, SIMCONNECT_RECV_EXCEPTION data)
 		{
-			string x = (data.dwException == SIMCONNECT_RECV_EXCEPTION.UNKNOWN_INDEX) ? "UNKNOCWN_INDEX" : "UNKNOWN_SENDID"; // dont do this hah im just being lazy
+			var x = (SIMCONNECT_EXCEPTION)data.dwException;
 
 			Console.ForegroundColor = ConsoleColor.Red;
 			Console.Write("\nSimConnect: ");

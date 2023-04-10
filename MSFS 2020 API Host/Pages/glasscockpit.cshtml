@@ -1,0 +1,132 @@
+﻿@page
+@model JohnPenny.MSFS.SimConnectManager.REST.Pages.GlassCockpitModel
+@{
+}
+
+<!DOCTYPE html>
+<html class="">
+    <head>
+        <meta charset="utf-8">
+        <title>Glass Cockpit • MSFS 2020 API Host</title>
+
+        <base href="/">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <style>
+            .mask    {
+                width: 1024px;
+                background-color: black;
+                position:absolute;
+            }
+            .uppermask { 
+                top:0px; left:0px; height:150px
+            }
+            .lowermask {
+                top:570px; left:0px; height:268px; white-space: nowrap;
+            }
+            .pfd {
+                top:1px; left:0; width: 256px
+            }
+            .mfd {
+                top:1px; left:512px; width: 256px
+            }
+            .mfdcontrols {
+                top:100px; left:250px; width: 100px; white-space: nowrap;
+            }
+            .pfdcontrols {
+                top:100px; left:750px; width: 100px; white-space: nowrap;
+            }
+            .softkey  {
+                width: 39px; 
+                height: 39px;
+            }
+            .toggleKey {
+                top:0px; left:1000px; height:5px; width:5px; z-index:100; display: inline-block;
+            }
+        </style>
+    </head>
+    <body class="flex ">
+        <button class="toggleKey" onclick="toggleMask()" >&ZeroWidthSpace;</button>
+        <embed src="Spacedesk/spacedesk.html" style="width:1024px; height: 768px; top:0;left:0;position:absolute;">
+        <div class="mask uppermask" id="upper">
+            <div class="mask mfdcontrols">
+                <img class="softkey" src="res/img/direct.png" onclick="onButtonPressed('(>H:AS1000_PFD_DIRECTTO)')" />
+                <img class="softkey" src="res/img/menu.png" onclick="onButtonPressed('(>H:AS1000_PFD_MENU_Push)')" />
+                <img class="softkey" src="res/img/fpl.png" onclick="onButtonPressed('(>H:AS1000_PFD_FPL_Push)')" />
+                <img class="softkey" src="res/img/proc.png" onclick="onButtonPressed('(>H:AS1000_PFD_PROC_Push)')" />
+                <img class="softkey" src="res/img/clr.png" onclick="onButtonPressed('(>H:AS1000_PFD_CLR)')" />
+                <img class="softkey" src="res/img/ent.png" onclick="onButtonPressed('(>H:AS1000_PFD_ENT_Push)')" />
+            </div>
+            <div class="mask pfdcontrols">
+                <img class="softkey" src="res/img/direct.png" onclick="onButtonPressed('(>H:AS1000_MFD_DIRECTTO)')" />
+                <img class="softkey" src="res/img/menu.png" onclick="onButtonPressed('(>H:AS1000_MFD_MENU_Push)')" />
+                <img class="softkey" src="res/img/fpl.png" onclick="onButtonPressed('(>H:AS1000_MFD_FPL_Push)')" />
+                <img class="softkey" src="res/img/proc.png" onclick="onButtonPressed('(>H:AS1000_MFD_PROC_Push)')" />
+                <img class="softkey" src="res/img/clr.png" onclick="onButtonPressed('(>H:AS1000_MFD_CLR)')" />
+                <img class="softkey" src="res/img/ent.png" onclick="onButtonPressed('(>H:AS1000_MFD_ENT_Push)')" />
+            </div>
+        </div>
+        <div class="mask lowermask" id="lower">
+            <div class="mask pfd">
+                <img class="softkey" src="res/img/button.png" onclick="onButtonPressed('(>H:AS1000_PFD_SOFTKEYS_1)')" />
+                <img class="softkey" src="res/img/button.png" onclick="onButtonPressed('(>H:AS1000_PFD_SOFTKEYS_2)')" />
+                <img class="softkey" src="res/img/button.png" onclick="onButtonPressed('(>H:AS1000_PFD_SOFTKEYS_3)')" />
+                <img class="softkey" src="res/img/button.png" onclick="onButtonPressed('(>H:AS1000_PFD_SOFTKEYS_4)')" />
+                <img class="softkey" src="res/img/button.png" onclick="onButtonPressed('(>H:AS1000_PFD_SOFTKEYS_5)')" />
+                <img class="softkey" src="res/img/button.png" onclick="onButtonPressed('(>H:AS1000_PFD_SOFTKEYS_6)')" />
+                <img class="softkey" src="res/img/button.png" onclick="onButtonPressed('(>H:AS1000_PFD_SOFTKEYS_7)')" />
+                <img class="softkey" src="res/img/button.png" onclick="onButtonPressed('(>H:AS1000_PFD_SOFTKEYS_8)')" />
+                <img class="softkey" src="res/img/button.png" onclick="onButtonPressed('(>H:AS1000_PFD_SOFTKEYS_9)')" />
+                <img class="softkey" src="res/img/button.png" onclick="onButtonPressed('(>H:AS1000_PFD_SOFTKEYS_10)')" />
+                <img class="softkey" src="res/img/button.png" onclick="onButtonPressed('(>H:AS1000_PFD_SOFTKEYS_11)')" />
+                <img class="softkey" src="res/img/button.png" onclick="onButtonPressed('(>H:AS1000_PFD_SOFTKEYS_12)')" />
+            </div>
+            <div class="mask mfd">
+                <img class="softkey" src="res/img/button.png" onclick="onButtonPressed('(>H:AS1000_MFD_SOFTKEYS_1)')" />
+                <img class="softkey" src="res/img/button.png" onclick="onButtonPressed('(>H:AS1000_MFD_SOFTKEYS_2)')" />
+                <img class="softkey" src="res/img/button.png" onclick="onButtonPressed('(>H:AS1000_MFD_SOFTKEYS_3)')" />
+                <img class="softkey" src="res/img/button.png" onclick="onButtonPressed('(>H:AS1000_MFD_SOFTKEYS_4)')" />
+                <img class="softkey" src="res/img/button.png" onclick="onButtonPressed('(>H:AS1000_MFD_SOFTKEYS_5)')" />
+                <img class="softkey" src="res/img/button.png" onclick="onButtonPressed('(>H:AS1000_MFD_SOFTKEYS_6)')" />
+                <img class="softkey" src="res/img/button.png" onclick="onButtonPressed('(>H:AS1000_MFD_SOFTKEYS_7)')" />
+                <img class="softkey" src="res/img/button.png" onclick="onButtonPressed('(>H:AS1000_MFD_SOFTKEYS_8)')" />
+                <img class="softkey" src="res/img/button.png" onclick="onButtonPressed('(>H:AS1000_MFD_SOFTKEYS_9)')" />
+                <img class="softkey" src="res/img/button.png" onclick="onButtonPressed('(>H:AS1000_MFD_SOFTKEYS_10)')" />
+                <img class="softkey" src="res/img/button.png" onclick="onButtonPressed('(>H:AS1000_MFD_SOFTKEYS_11)')" />
+                <img class="softkey" src="res/img/button.png" onclick="onButtonPressed('(>H:AS1000_MFD_SOFTKEYS_12)')" />
+            </div>
+        </div>
+        <script>
+            function onButtonPressed(name) {
+                console.log("Pressed " + name)
+                fetch('http://@Request.Host/event', {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ "name": name })
+                })
+            }
+        </script>
+        <script defer src="https://dagammla.gitlab.io/keep-silk-open/keep.js"></script>
+        <script>
+            //document.addEventListener("click", () => document.getElementById("rep").outerHTML = 'This page should now stay open')
+            var SilkVisualMode = false
+            var AlwaysUseSilk = true
+        </script>
+        <script>
+            function toggleMask() {
+              var upper = document.getElementById("upper");
+              var lower = document.getElementById("lower");
+              if (upper.style.display === "none") {
+                upper.style.display = "block";
+                lower.style.display = "block";
+              } else {
+                upper.style.display = "none";
+                lower.style.display = "none";
+              }
+            }
+        </script>
+    </body>
+</html>
