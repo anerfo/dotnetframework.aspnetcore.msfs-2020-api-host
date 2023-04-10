@@ -30,15 +30,25 @@
             .mfd {
                 top:1px; left:512px; width: 256px
             }
-            .mfdcontrols {
-                top:100px; left:250px; width: 100px; white-space: nowrap;
-            }
             .pfdcontrols {
-                top:100px; left:750px; width: 100px; white-space: nowrap;
+                top:60px;
+                left:430px;
+                line-height:0;
+                width:0;
+            }
+            .mfdcontrols {
+                top:60px;
+                left:940px;
+                line-height:0;
+                width:0;
             }
             .softkey  {
+                width: 42.5px; 
+                height: 42.5px;
+            }
+            .softkeyControl  {
                 width: 39px; 
-                height: 39px;
+                height: 30px;
             }
             .toggleKey {
                 top:0px; left:1000px; height:5px; width:5px; z-index:100; display: inline-block;
@@ -49,25 +59,61 @@
         <button class="toggleKey" onclick="toggleMask()" >&ZeroWidthSpace;</button>
         <embed src="Spacedesk/spacedesk.html" style="width:1024px; height: 768px; top:0;left:0;position:absolute;">
         <div class="mask uppermask" id="upper">
-            <div class="mask mfdcontrols">
-                <img class="softkey" src="res/img/direct.png" onclick="onButtonPressed('(>H:AS1000_PFD_DIRECTTO)')" />
-                <img class="softkey" src="res/img/menu.png" onclick="onButtonPressed('(>H:AS1000_PFD_MENU_Push)')" />
-                <img class="softkey" src="res/img/fpl.png" onclick="onButtonPressed('(>H:AS1000_PFD_FPL_Push)')" />
-                <img class="softkey" src="res/img/proc.png" onclick="onButtonPressed('(>H:AS1000_PFD_PROC_Push)')" />
-                <img class="softkey" src="res/img/clr.png" onclick="onButtonPressed('(>H:AS1000_PFD_CLR)')" />
-                <img class="softkey" src="res/img/ent.png" onclick="onButtonPressed('(>H:AS1000_PFD_ENT_Push)')" />
-            </div>
-            <div class="mask pfdcontrols">
-                <img class="softkey" src="res/img/direct.png" onclick="onButtonPressed('(>H:AS1000_MFD_DIRECTTO)')" />
-                <img class="softkey" src="res/img/menu.png" onclick="onButtonPressed('(>H:AS1000_MFD_MENU_Push)')" />
-                <img class="softkey" src="res/img/fpl.png" onclick="onButtonPressed('(>H:AS1000_MFD_FPL_Push)')" />
-                <img class="softkey" src="res/img/proc.png" onclick="onButtonPressed('(>H:AS1000_MFD_PROC_Push)')" />
-                <img class="softkey" src="res/img/clr.png" onclick="onButtonPressed('(>H:AS1000_MFD_CLR)')" />
-                <img class="softkey" src="res/img/ent.png" onclick="onButtonPressed('(>H:AS1000_MFD_ENT_Push)')" />
-            </div>
+            <table class="mask pfdcontrols" cellspacing="0" cellpadding="0">
+                <tr>
+                    <th>
+                        <img class="softkeyControl" src="res/img/direct.png" onclick="onButtonPressed('(>H:AS1000_PFD_DIRECTTO)')" />
+                    </th>
+                    <th>
+                        <img class="softkeyControl" src="res/img/menu.png" onclick="onButtonPressed('(>H:AS1000_PFD_MENU_Push)')" />
+                    </th>
+                <tr>
+                </tr>
+                    <th>
+                        <img class="softkeyControl" src="res/img/fpl.png" onclick="onButtonPressed('(>H:AS1000_PFD_FPL_Push)')" />
+                    </th>
+                    <th>
+                        <img class="softkeyControl" src="res/img/proc.png" onclick="onButtonPressed('(>H:AS1000_PFD_PROC_Push)')" />
+                    </th>
+                <tr>
+                </tr>
+                    <th>
+                        <img class="softkeyControl" src="res/img/clr.png" onclick="onButtonPressed('(>H:AS1000_PFD_CLR)')" />
+                    </th>
+                    <th>
+                        <img class="softkeyControl" src="res/img/ent.png" onclick="onButtonPressed('(>H:AS1000_PFD_ENT_Push)')" />
+                    </th>
+                </tr>
+            </table>
+            <table class="mask mfdcontrols" cellspacing="0" cellpadding="0">
+                <tr>
+                    <th>
+                        <img class="softkeyControl" src="res/img/direct.png" onclick="onButtonPressed('(>H:AS1000_MFD_DIRECTTO)')" />
+                    </th>
+                    <th>
+                        <img class="softkeyControl" src="res/img/menu.png" onclick="onButtonPressed('(>H:AS1000_MFD_MENU_Push)')" />
+                    </th>
+                <tr>
+                </tr>
+                    <th>
+                        <img class="softkeyControl" src="res/img/fpl.png" onclick="onButtonPressed('(>H:AS1000_MFD_FPL_Push)')" />
+                    </th>
+                    <th>
+                        <img class="softkeyControl" src="res/img/proc.png" onclick="onButtonPressed('(>H:AS1000_MFD_PROC_Push)')" />
+                    </th>
+                <tr>
+                </tr>
+                    <th>
+                        <img class="softkeyControl" src="res/img/clr.png" onclick="onButtonPressed('(>H:AS1000_MFD_CLR)')" />
+                    </th>
+                    <th>
+                        <img class="softkeyControl" src="res/img/ent.png" onclick="onButtonPressed('(>H:AS1000_MFD_ENT_Push)')" />
+                    </th>
+                </tr>
+            </table>
         </div>
         <div class="mask lowermask" id="lower">
-            <div class="mask pfd">
+            <table class="mask pfd" cellspacing="0" cellpadding="0">
                 <img class="softkey" src="res/img/button.png" onclick="onButtonPressed('(>H:AS1000_PFD_SOFTKEYS_1)')" />
                 <img class="softkey" src="res/img/button.png" onclick="onButtonPressed('(>H:AS1000_PFD_SOFTKEYS_2)')" />
                 <img class="softkey" src="res/img/button.png" onclick="onButtonPressed('(>H:AS1000_PFD_SOFTKEYS_3)')" />
@@ -80,8 +126,8 @@
                 <img class="softkey" src="res/img/button.png" onclick="onButtonPressed('(>H:AS1000_PFD_SOFTKEYS_10)')" />
                 <img class="softkey" src="res/img/button.png" onclick="onButtonPressed('(>H:AS1000_PFD_SOFTKEYS_11)')" />
                 <img class="softkey" src="res/img/button.png" onclick="onButtonPressed('(>H:AS1000_PFD_SOFTKEYS_12)')" />
-            </div>
-            <div class="mask mfd">
+            </table>
+            <table class="mask mfd" cellspacing="0" cellpadding="0">
                 <img class="softkey" src="res/img/button.png" onclick="onButtonPressed('(>H:AS1000_MFD_SOFTKEYS_1)')" />
                 <img class="softkey" src="res/img/button.png" onclick="onButtonPressed('(>H:AS1000_MFD_SOFTKEYS_2)')" />
                 <img class="softkey" src="res/img/button.png" onclick="onButtonPressed('(>H:AS1000_MFD_SOFTKEYS_3)')" />
@@ -94,7 +140,7 @@
                 <img class="softkey" src="res/img/button.png" onclick="onButtonPressed('(>H:AS1000_MFD_SOFTKEYS_10)')" />
                 <img class="softkey" src="res/img/button.png" onclick="onButtonPressed('(>H:AS1000_MFD_SOFTKEYS_11)')" />
                 <img class="softkey" src="res/img/button.png" onclick="onButtonPressed('(>H:AS1000_MFD_SOFTKEYS_12)')" />
-            </div>
+            </table>
         </div>
         <script>
             function onButtonPressed(name) {
