@@ -36,6 +36,18 @@
                 line-height:0;
                 width:0;
             }
+            .pfdrange {
+                top:95px;
+                left:280px;
+                line-height:0;
+                width:0;
+            }
+            .mfdrange {
+                top:95px;
+                left:760px;
+                line-height:0;
+                width:0;
+            }
             .mfdcontrols {
                 top:95px;
                 left:900px;
@@ -63,6 +75,41 @@
         <button class="toggleKey" onclick="toggleMask()" >&ZeroWidthSpace;</button>
         <embed src="Spacedesk/spacedesk.html" style="width:1024px; height: 768px; top:0;left:0;position:absolute;">
         <div class="mask uppermask" id="upper">
+            <table class="mask pfdrange" cellspacing="0" cellpadding="0">
+                <tr>
+                    <th>
+                        <img class="softkeyControl" src="res/img/rangedec.png" ontouchstart="onButtonPressed('(>H:AS1000_PFD_RANGE_DEC)')" />
+                    </th>
+                    <th>
+                        <img class="softkeyControl" src="res/img/rangeup.png" ontouchstart="onButtonPressed('(>H:AS1000_PFD_JOYSTICK_UP)')" />
+                    </th>
+                    <th>
+                        <img class="softkeyControl" src="res/img/rangeinc.png" ontouchstart="onButtonPressed('(>H:AS1000_PFD_RANGE_INC)')" />
+                    </th>
+                <tr>
+                <tr>
+                    <th>
+                        <img class="softkeyControl" src="res/img/rangeleft.png" ontouchstart="onButtonPressed('(>H:AS1000_PFD_JOYSTICK_LEFT)')" />
+                    </th>
+                    <th>
+                        <img class="softkeyControl" src="res/img/rangeenter.png" ontouchstart="onButtonPressed('(>H:AS1000_PFD_JOYSTICK_PUSH)')" />
+                    </th>
+                    <th>
+                        <img class="softkeyControl" src="res/img/rangeright.png" ontouchstart="onButtonPressed('(>H:AS1000_PFD_JOYSTICK_RIGHT)')" />
+                    </th>
+                <tr>
+                <tr>
+                    <th>
+                        <img class="softkeyControl" src="res/img/rangelowerleft.png" />
+                    </th>
+                    <th>
+                        <img class="softkeyControl" src="res/img/rangedown.png" ontouchstart="onButtonPressed('(>H:AS1000_PFD_JOYSTICK_DOWN)')" />
+                    </th>
+                    <th>
+                        <img class="softkeyControl" src="res/img/rangelowerright.png" />
+                    </th>
+                <tr>
+            </table>
             <table class="mask pfdcontrols" cellspacing="0" cellpadding="0">
                 <tr>
                     <th>
@@ -88,6 +135,41 @@
                         <img class="softkeyControl" src="res/img/ent.png" ontouchstart="onButtonPressed('(>H:AS1000_PFD_ENT_Push)')" />
                     </th>
                 </tr>
+            </table>
+            <table class="mask mfdrange" cellspacing="0" cellpadding="0">
+                <tr>
+                    <th>
+                        <img class="softkeyControl" src="res/img/rangedec.png" ontouchstart="onButtonPressed('(>H:AS1000_MFD_RANGE_DEC)')" />
+                    </th>
+                    <th>
+                        <img class="softkeyControl" src="res/img/rangeup.png" ontouchstart="onButtonPressed('(>H:AS1000_MFD_JOYSTICK_UP)')" />
+                    </th>
+                    <th>
+                        <img class="softkeyControl" src="res/img/rangeinc.png" ontouchstart="onButtonPressed('(>H:AS1000_MFD_RANGE_INC)')" />
+                    </th>
+                <tr>
+                <tr>
+                    <th>
+                        <img class="softkeyControl" src="res/img/rangeleft.png" ontouchstart="onButtonPressed('(>H:AS1000_MFD_JOYSTICK_LEFT)')" />
+                    </th>
+                    <th>
+                        <img class="softkeyControl" src="res/img/rangeenter.png" ontouchstart="onButtonPressed('(>H:AS1000_MFD_JOYSTICK_PUSH)')" />
+                    </th>
+                    <th>
+                        <img class="softkeyControl" src="res/img/rangeright.png" ontouchstart="onButtonPressed('(>H:AS1000_MFD_JOYSTICK_RIGHT)')" />
+                    </th>
+                <tr>
+                <tr>
+                    <th>
+                        <img class="softkeyControl" src="res/img/rangelowerleft.png" />
+                    </th>
+                    <th>
+                        <img class="softkeyControl" src="res/img/rangedown.png" ontouchstart="onButtonPressed('(>H:AS1000_MFD_JOYSTICK_DOWN)')" />
+                    </th>
+                    <th>
+                        <img class="softkeyControl" src="res/img/rangelowerright.png" />
+                    </th>
+                <tr>
             </table>
             <table class="mask mfdcontrols" cellspacing="0" cellpadding="0">
                 <tr>
