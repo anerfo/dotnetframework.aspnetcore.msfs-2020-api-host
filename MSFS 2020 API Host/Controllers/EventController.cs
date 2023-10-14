@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using JohnPenny.MSFS.SimConnectManager.REST.Interfaces;
+using JohnPenny.MSFS.SimConnectManager.REST.Models;
+using Microsoft.AspNetCore.Mvc;
 using static JohnPenny.MSFS.SimConnectManager.REST.Controllers.AircraftController;
 
 namespace JohnPenny.MSFS.SimConnectManager.REST.Controllers

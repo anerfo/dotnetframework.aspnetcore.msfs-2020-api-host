@@ -9,6 +9,8 @@ using Microsoft.FlightSimulator.SimConnect;
 
 using JohnPenny.MSFS.SimConnectManager.REST;
 using MobiFlight.SimConnectMSFS;
+using System.Windows.Documents;
+using System.Collections.Generic;
 
 namespace JohnPenny.MSFS.SimConnectManager
 {
@@ -215,8 +217,39 @@ namespace JohnPenny.MSFS.SimConnectManager
 			isSetUp = true;
 			return isSetUp;
 		}
-		
-		public void RequestSimData(RequestName requestName, DataStructName dataStructName)
+
+		DataStructName _currentDataStruct = DataStructName.SomeOtherStruct2;
+		Dictionary<string, DataStructName> _dataStuctMap = new Dictionary<string, DataStructName>();
+		Dictionary<string, Action<Dictionary<string, string>>> _dataStuctCallback = new Dictionary<string, Action<Dictionary<string, string>>>();
+
+        public void AddDataDefinition(string id, List<string> variables, Action<Dictionary<string, string>> callback)
+		{
+            if(_dataStuctMap.TryGetValue(id, out DataStructName defineId) == false)
+			{
+                _currentDataStruct++;
+				defineId = _currentDataStruct;
+				_dataStuctMap[id] = _currentDataStruct;
+				_dataStuctCallback[id] = callback;
+            }
+			
+            simConnect.ClearDataDefinition(defineId);
+			foreach(var variable in variables)
+			{
+                simConnect.AddToDataDefinition(defineId, variable, null, SIMCONNECT_DATATYPE.FLOAT64, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+            }
+            simConnect.RegisterDataDefineStruct<SimDataAircraft>(defineId);
+        }
+
+        public void RequestSimData(RequestName requestName, string id)
+		{
+            if (_dataStuctMap.TryGetValue(id, out DataStructName defineId) == false)
+            {
+				return;
+            }
+			RequestSimData(requestName, defineId);
+        }
+
+        public void RequestSimData(RequestName requestName, DataStructName dataStructName)
 		{
 			#region HELP
 			// RequestID: Specifies the ID of the client defined request. This is used later by the client to identify which data has been received. This value should be unique for each request, re-using a RequestID will overwrite any previous request using the same ID.
@@ -230,39 +263,15 @@ namespace JohnPenny.MSFS.SimConnectManager
 			// user example: simConnect.RequestDataOnSimObjectType(requestType, dataType, 0, SIMCONNECT_SIMOBJECT_TYPE.USER);
 			#endregion
 
-			switch (dataStructName) // which DataStructName data struct is being requested?
-			{
-				case DataStructName.SimDataAircraft:
-					{
-						switch (requestName) // which RequestName request is being requested?
-						{
-							case RequestName.User:
-								{
-									// must abort if we hit a return rate limit, as the SimConnect API will just overwrite duplicates which would hang the REST API
-									if (awaitSimConnectRequests[(int)requestName]) return; // abort
-									simConnect.RequestDataOnSimObjectType(requestName, dataStructName, 0, SIMCONNECT_SIMOBJECT_TYPE.USER);
-									awaitSimConnectRequests[(int)requestName] = true;
-									break;
-								}
-							default:
-								{
-									// unknown request name, ignore
-									break;
-								}
-						}
-						break;
-					}
-				default:
-					{
-						// unknown data type, ignore
-						break;
-					}
-			}
+			if (awaitSimConnectRequests[(int)requestName]) return; // abort
+			simConnect.RequestDataOnSimObjectType(requestName, dataStructName, 0, SIMCONNECT_SIMOBJECT_TYPE.USER);
+			awaitSimConnectRequests[(int)requestName] = true;
 		}
 
 		private void OnReceiveSimData(SimConnect sender, SIMCONNECT_RECV_SIMOBJECT_DATA_BYTYPE data)
 		{
-			switch ((DataStructName)data.dwDefineID) // which DataStructName data struct is being returned?
+			var dataStruct = (DataStructName)data.dwDefineID;
+            switch (dataStruct) // which DataStructName data struct is being returned?
 			{
 				case DataStructName.SimDataAircraft:
 					{

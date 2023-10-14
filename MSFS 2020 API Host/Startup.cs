@@ -49,6 +49,7 @@ namespace JohnPenny.MSFS.SimConnectManager.REST
 				});
 
 			services.AddSingleton<IDataRepository<Aircraft>, AircraftRepository>();
+			services.AddSingleton<IDataRepository<SimData>, SimDataRepository>();
 
 			services.AddLogging(builder =>
 			{

@@ -1,0 +1,128 @@
+﻿@page
+@model JohnPenny.MSFS.SimConnectManager.REST.Pages.AtrGlassCockpitModel 
+@{
+}
+
+<!DOCTYPE html>
+<html class="">
+    <head>
+        <meta charset="utf-8">
+        <title>ATR Glass Cockpit • MSFS 2020 API Host</title>
+
+        <base href="/">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <style>
+            .mask    {
+                width: 1280px;
+                background-color: black;
+                position:absolute;
+            }
+            .uppermask { 
+                top:0px; left:0px; height:31px
+            }
+            .lowermask {
+                top:750px; left:0px; height:100px; white-space: nowrap;
+            }
+            .softkey  {
+                width: 53px; 
+                height: 38.4px;
+            }
+            .footer {
+                top:900px; left:0px;
+                color: white;
+            }
+        </style>
+    </head>
+    <body>
+        <button class="toggleKey" onclick="toggleMask()" >&ZeroWidthSpace;</button>
+        <embed src="Spacedesk/spacedesk.html" style="width:1280px; height: 800px; top:0;left:0;position:absolute;">
+        <div class="mask uppermask" id="upper">
+        </div>
+        <div class="mask lowermask" id="lower">
+            <table class="mask pfd" cellspacing="0" cellpadding="0">
+                <tr>
+                    <th>
+                        <img class="softkey" src="res/atr/atr-com.png" ontouchstart="onButtonPressed('1 (>L:MSATR_MCP1_COM)')" />
+                        <img class="softkey" src="res/atr/atr-nav.png" ontouchstart="onButtonPressed('1 (>L:MSATR_MCP1_NAV)')" />
+                        <img class="softkey" src="res/atr/atr-surv.png" ontouchstart="onButtonPressed('1 (>L:MSATR_MCP1_SURV)')" />
+                        <img class="softkey" src="res/atr/atr-nd.png" ontouchstart="onButtonPressed('1 (>L:MSATR_EFIS_ND_1)')" />
+                        <img class="softkey" src="res/atr/atr-sys.png" ontouchstart="onButtonPressed('1 (>L:MSATR_EFIS_SYS_1)')" />
+                        <img class="softkey" src="res/atr/atr-perf.png" ontouchstart="onButtonPressed('1 (>L:MSATR_EFIS_PERF_1)')" />
+                        <img class="softkey" src="res/atr/atr-misc.png" ontouchstart="onButtonPressed('1 (>L:MSATR_EFIS_MISC_1)')" />
+                        <img class="softkey" src="res/atr/atr-vid.png" ontouchstart="onButtonPressed('1 (>L:MSATR_EFIS_VID_1)')" />
+                        <img class="softkey" src="res/atr/atr-map.png" ontouchstart="onButtonPressed('1 (>L:MSATR_EFIS_MAP_1)')" />
+                        <img class="softkey" src="res/atr/atr-rng-inc.png" ontouchstart="onButtonPressed('1 (>L:MSATR_EFIS_RNG_INC_1)')" />
+                        <img class="softkey" src="res/atr/atr-rng-dec.png" ontouchstart="onButtonPressed('1 (>L:MSATR_EFIS_RNG_DEC_1)')" />
+                        <img class="softkey" src="res/atr/atr-pwr-to.png" ontouchstart="onButtonPressed('0 (>L:MSATR_ENGINE_Knob_PwrMgt_Outer)');sleep(500);onButtonPressed('0 (>L:MSATR_ENG_PWRMGT_2)')" />
+                        <img class="softkey" src="res/atr/atr-pwr-mct.png" ontouchstart="onButtonPressed('1 (>L:MSATR_ENGINE_Knob_PwrMgt_Outer)');sleep(500);onButtonPressed('1 (>L:MSATR_ENG_PWRMGT_2)')" />
+                        <img class="softkey" src="res/atr/atr-pwr-clb.png" ontouchstart="onButtonPressed('2 (>L:MSATR_ENGINE_Knob_PwrMgt_Outer)');sleep(500);onButtonPressed('2 (>L:MSATR_ENG_PWRMGT_2)')" />
+                        <img class="softkey" src="res/atr/atr-pwr-crz.png" ontouchstart="onButtonPressed('3 (>L:MSATR_ENGINE_Knob_PwrMgt_Outer)');sleep(500);onButtonPressed('3 (>L:MSATR_ENG_PWRMGT_2)')" />
+                    </th>
+                </tr>
+                <tr>
+                    <th>
+                        <img class="softkey" src="res/atr/atr-left.png" ontouchstart="onButtonPressed('1 (>L:MSATR_MCP1_LEFT)')" />
+                        <img class="softkey" src="res/atr/atr-up.png" ontouchstart="onButtonPressed('1 (>L:MSATR_MCP1_UP)')" />
+                        <img class="softkey" src="res/atr/atr-ent.png" ontouchstart="onButtonPressed('1 (>L:MSATR_MCP1_ENTER)')" />
+                        <img class="softkey" src="res/atr/atr-right.png" ontouchstart="onButtonPressed('1 (>L:MSATR_MCP1_RIGHT)')" />
+                        <img class="softkey" src="res/atr/atr-down.png" ontouchstart="onButtonPressed('1 (>L:MSATR_MCP1_DOWN)')" />
+                        <img class="softkey" src="res/atr/atr-esc.png" ontouchstart="onButtonPressed('1 (>L:MSATR_MCP1_ESC)')" />
+                        <img class="softkey" src="res/atr/atr-1.png" ontouchstart="onButtonPressed('1 (>L:MSATR_MCP1_1)')" />
+                        <img class="softkey" src="res/atr/atr-2.png" ontouchstart="onButtonPressed('1 (>L:MSATR_MCP1_2)')" />
+                        <img class="softkey" src="res/atr/atr-3.png" ontouchstart="onButtonPressed('1 (>L:MSATR_MCP1_3)')" />
+                        <img class="softkey" src="res/atr/atr-4.png" ontouchstart="onButtonPressed('1 (>L:MSATR_MCP1_4)')" />
+                        <img class="softkey" src="res/atr/atr-5.png" ontouchstart="onButtonPressed('1 (>L:MSATR_MCP1_5)')" />
+                        <img class="softkey" src="res/atr/atr-6.png" ontouchstart="onButtonPressed('1 (>L:MSATR_MCP1_6)')" />
+                        <img class="softkey" src="res/atr/atr-7.png" ontouchstart="onButtonPressed('1 (>L:MSATR_MCP1_7)')" />
+                        <img class="softkey" src="res/atr/atr-8.png" ontouchstart="onButtonPressed('1 (>L:MSATR_MCP1_8)')" />
+                        <img class="softkey" src="res/atr/atr-9.png" ontouchstart="onButtonPressed('1 (>L:MSATR_MCP1_9)')" />
+                        <img class="softkey" src="res/atr/atr-0.png" ontouchstart="onButtonPressed('1 (>L:MSATR_MCP1_0)')" />
+                        <img class="softkey" src="res/atr/atr-dot.png" ontouchstart="onButtonPressed('1 (>L:MSATR_MCP1_PERIOD)')" />
+                    </th>
+                </tr>
+            </table>
+        </div>
+        <div class="mask footer">
+            Sound Effect from <a href="https://pixabay.com/sound-effects/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=music&amp;utm_content=105809">Pixabay</a><br/>
+            Only works with <a href="https://www.mobiflight.com/de/index.html">MobiFlight</a> WASM installed (MobiFlight Rocks!)</div>
+        <audio id="audio" src="res/media/flashlight-clicking-on-105809.mp3"></audio>
+        <script>
+            function onButtonPressed(name) {
+                console.log("Pressed " + name)
+                document.getElementById("audio");
+                audio.play();
+                fetch('http://@Request.Host/event', {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ "name": name })
+                })
+            }
+        </script>
+        <script defer src="https://dagammla.gitlab.io/keep-silk-open/keep.js"></script>
+        <script>
+            //document.addEventListener("click", () => document.getElementById("rep").outerHTML = 'This page should now stay open')
+            var SilkVisualMode = false
+            var AlwaysUseSilk = true
+        </script>
+        <script>
+            function toggleMask() {
+              var upper = document.getElementById("upper");
+              var lower = document.getElementById("lower");
+              if (upper.style.display === "none") {
+                upper.style.display = "block";
+                lower.style.display = "block";
+              } else {
+                upper.style.display = "none";
+                lower.style.display = "none";
+              }
+            }
+            function sleep(ms) {
+                return new Promise(resolve => setTimeout(resolve, ms));
+            }
+        </script>
+    </body>
+</html>

@@ -1,0 +1,104 @@
+﻿@page
+@model JohnPenny.MSFS.SimConnectManager.REST.Pages.AtrOverheadModel
+
+<!DOCTYPE html>
+<html class="">
+    <head>
+        <meta charset="utf-8">
+        <title>ATR Overhead • MSFS 2020 API Host</title>
+
+        <base href="/">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <style>
+            .parent {
+              position: relative;
+              top: 0;
+              left: 0;
+            }
+            .basePanel {
+              width: 1920;
+              height: 1080;
+              position: relative;
+              top: 0;
+              left: 0;
+            }
+            .batterySwitch {
+              position: absolute;
+              left: 769px;
+              top: 269px;
+              display: none;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="parent">
+            <img class="basePanel" src="res/atr/overheadBase.png"/>
+            <img id="BatterySwitchOn" class="batterySwitch" src="res/atr/batteryOn.png" onclick="onButtonPressed('1 (>L:MSATR_ELEC_BAT_SWITCH)')"/>
+            <img id="BatterySwitchOff" class="batterySwitch" src="res/atr/batteryOff.png" onclick="onButtonPressed('2 (>L:MSATR_ELEC_BAT_SWITCH)')"/>
+
+        </div>
+
+        <audio id="audio" src="res/media/flashlight-clicking-on-105809.mp3"></audio>
+        <script>
+            function onButtonPressed(name) {
+                console.log("Pressed " + name)
+                fetch('http://@Request.Host/event', {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ "name": name })
+                })
+
+                fetch('http://@Request.Host/simdata?id=atroverhead', {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify([ "MSATR_FUEL_PUMP1_OFF_LT", "MSATR_FUEL_PUMP1_RUN_LT"])
+                })
+
+                document.getElementById("audio");
+                audio.play();
+            }
+        </script>
+        <script>
+            setInterval(pollData, 1000);
+
+            async function pollData() {
+                var response = await fetch('http://@Request.Host/simdata?id=atroverhead', {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    }
+                })
+                const data = await response.json();
+                console.log("data=" + data);
+                render(data);
+            }
+
+            function render(data) {
+              var image1 = document.getElementById('BatterySwitchOn');
+              var image2 = document.getElementById('BatterySwitchOff');
+
+              if (data['MSATR_FUEL_PUMP1_RUN_LT'] === '1') {
+                image1.style.display = 'block';
+                image2.style.display = 'none';
+              } else {
+                image1.style.display = 'none';
+                image2.style.display = 'block';
+              }
+            }
+        </script>
+        <script defer src="https://dagammla.gitlab.io/keep-silk-open/keep.js"></script>
+        <script>
+            //document.addEventListener("click", () => document.getElementById("rep").outerHTML = 'This page should now stay open')
+            var SilkVisualMode = false
+            var AlwaysUseSilk = true
+        </script>
+    </body>
+</html>
